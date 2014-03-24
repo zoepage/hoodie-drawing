@@ -1,4 +1,4 @@
-var clientId = window.clientId = hoodie.generateId();
+var clientId = window.clientId = generateId();
 
 // The faster the user moves their mouse the larger the circle will be
 // We dont want it to be larger/smaller than this
@@ -44,7 +44,7 @@ function onMouseDrag(event) {
 
 function onMouseUp(event) {
     endPath(current_path, event.point);
-    current_path.hoodie_id = hoodie.generateId();
+    current_path.hoodie_id = generateId();
     pathdoc.end = event.point;
     pathdoc.id = current_path.hoodie_id;
     //hoodie.store.add('path', pathdoc);
@@ -118,7 +118,36 @@ hoodie.account.on('signout', clearLocal);
 
 
 
+function generateId() {
+    var chars, i, radix;
 
+    // uuids consist of numbers and lowercase letters only.
+    // We stick to lowercase letters to prevent confusion
+    // and to prevent issues with CouchDB, e.g. database
+    // names do wonly allow for lowercase letters.
+    chars = '0123456789abcdefghijklmnopqrstuvwxyz'.split('');
+    radix = chars.length;
+
+
+    function generateId(length) {
+      var id = '';
+
+      // default uuid length to 7
+      if (length === undefined) {
+        length = 7;
+      }
+
+      for (i = 0; i < length; i++) {
+        var rand = Math.random() * radix;
+        var char = chars[Math.floor(rand)];
+        id += String(char).charAt(0);
+      }
+
+      return id;
+    }
+
+    return generateId();
+  };
 
 
 
