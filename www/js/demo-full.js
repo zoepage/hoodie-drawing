@@ -24,10 +24,8 @@
 
 
         // 3
-        hoodie.store.on('add:path', function (doc) {
-            if (doc.by !== clientId) {
-                drawPath(doc);
-            }
+        hoodie.remote.on('add:path', function (doc) {
+            drawPath(doc);
         });
 
 
